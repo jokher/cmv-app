@@ -4,8 +4,9 @@ define([
     'esri/config',
     /*'esri/urlUtils',*/
     'esri/tasks/GeometryService',
-    'esri/layers/ImageParameters'
-], function (units, Extent, esriConfig, /*urlUtils,*/ GeometryService, ImageParameters) {
+    'esri/layers/ImageParameters',
+    'dojo/i18n!./nls/main'
+], function (units, Extent, esriConfig, /*urlUtils,*/ GeometryService, ImageParameters, i18n) {
 
     // url to your proxy page, must be on same machine hosting you app. See proxy folder for readme.
     esriConfig.defaults.io.proxyUrl = 'proxy/proxy.ashx';
@@ -19,7 +20,7 @@ define([
     });*/
 
     // url to your geometry server.
-    esriConfig.defaults.geometryService = new GeometryService('http://tasks.arcgisonline.com/ArcGIS/rest/services/Geometry/GeometryServer');
+    esriConfig.defaults.geometryService = new GeometryService('https://tasks.arcgisonline.com/ArcGIS/rest/services/Geometry/GeometryServer');
 
     // helper function returning ImageParameters for dynamic layers
     // example:
@@ -83,13 +84,11 @@ define([
         // collapseButtonsPane: 'center', //center or outer
 
         // custom titles
-        /*
         titles: {
-            header: 'My App',
-            subHeader: 'My GIS App is the best!',
-            pageTitle: 'My App'
+            header: i18n.viewer.titles.header,
+            subHeader: i18n.viewer.titles.subHeader,
+            pageTitle: i18n.viewer.titles.pageTitle
         },
-        */
 
         // user-defined layer types
         /*
@@ -110,8 +109,8 @@ define([
         // 3 'mode' options: MODE_SNAPSHOT = 0, MODE_ONDEMAND = 1, MODE_SELECTION = 2
         operationalLayers: [{
             type: 'feature',
-            url: 'http://services1.arcgis.com/6bXbLtkf4y11TosO/arcgis/rest/services/Restaurants/FeatureServer/0',
-            title: 'Restaurants',
+            url: 'https://services1.arcgis.com/6bXbLtkf4y11TosO/arcgis/rest/services/Restaurants/FeatureServer/0',
+            title: i18n.viewer.operationalLayers.restaurants,
             options: {
                 id: 'restaurants',
                 opacity: 1.0,
@@ -125,13 +124,13 @@ define([
             legendLayerInfos: {
                 exclude: false,
                 layerInfo: {
-                    title: 'Restaurants'
+                    title: i18n.viewer.operationalLayers.restaurants
                 }
             }
         }, {
             type: 'feature',
-            url: 'http://sampleserver3.arcgisonline.com/ArcGIS/rest/services/SanFrancisco/311Incidents/FeatureServer/0',
-            title: 'San Francisco 311 Incidents',
+            url: 'https://sampleserver3.arcgisonline.com/ArcGIS/rest/services/SanFrancisco/311Incidents/FeatureServer/0',
+            title: i18n.viewer.operationalLayers.sf311Incidents,
             options: {
                 id: 'sf311Incidents',
                 opacity: 1.0,
@@ -141,8 +140,8 @@ define([
             }
         }, {
             type: 'dynamic',
-            url: 'http://sampleserver1.arcgisonline.com/ArcGIS/rest/services/PublicSafety/PublicSafetyOperationalLayers/MapServer',
-            title: 'Louisville Public Safety',
+            url: 'https://sampleserver1.arcgisonline.com/ArcGIS/rest/services/PublicSafety/PublicSafetyOperationalLayers/MapServer',
+            title: i18n.viewer.operationalLayers.louisvillePubSafety,
             options: {
                 id: 'louisvillePubSafety',
                 opacity: 1.0,
@@ -165,10 +164,10 @@ define([
             }
         }, {
             type: 'dynamic',
-            url: 'http://sampleserver6.arcgisonline.com/arcgis/rest/services/DamageAssessment/MapServer',
-            title: 'Damage Assessment',
+            url: 'https://sampleserver6.arcgisonline.com/arcgis/rest/services/DamageAssessment/MapServer',
+            title: i18n.viewer.operationalLayers.damageAssessment,
             options: {
-                id: 'DamageAssessment',
+                id: 'damageAssessment',
                 opacity: 1.0,
                 visible: true,
                 imageParameters: buildImageParameters()
@@ -186,7 +185,7 @@ define([
         }, {
             type: 'vectortile',
             title: 'Light Gray Canvas Vector',
-            url: '//www.arcgis.com/sharing/rest/content/items/bdf1eec3fa79456c8c7c2bb62f86dade/resources/styles/root.json',
+            url: 'https//www.arcgis.com/sharing/rest/content/items/bdf1eec3fa79456c8c7c2bb62f86dade/resources/styles/root.json',
             options: {
                 id: 'vectortile1',
                 opacity: 0.8,
@@ -200,12 +199,12 @@ define([
                 id: 'vectortile2',
                 opacity: 1.0,
                 visible: true,
-                'glyphs': '//www.arcgis.com/sharing/rest/content/items/00cd8e843bae49b3a040423e5d65416b/resources/fonts/{fontstack}/{range}.pbf',
-                'sprite': '//www.arcgis.com/sharing/rest/content/items/00cd8e843bae49b3a040423e5d65416b/resources/sprites/sprite',
+                'glyphs': 'https://www.arcgis.com/sharing/rest/content/items/00cd8e843bae49b3a040423e5d65416b/resources/fonts/{fontstack}/{range}.pbf',
+                'sprite': 'https://www.arcgis.com/sharing/rest/content/items/00cd8e843bae49b3a040423e5d65416b/resources/sprites/sprite',
                 'version': 8,
                 'sources': {
                     'esri': {
-                        'url': '//basemapsdev.arcgis.com/arcgis/rest/services/World_Basemap/VectorTileServer',
+                        'url': 'https://basemapsdev.arcgis.com/arcgis/rest/services/World_Basemap/VectorTileServer',
                         'type': 'vector'
                     }
                 },
@@ -267,7 +266,7 @@ define([
                 id: 'identify',
                 type: 'titlePane',
                 path: 'gis/dijit/Identify',
-                title: 'Identify',
+                title: i18n.viewer.widgets.identify,
                 open: false,
                 position: 3,
                 options: 'config/identify'
@@ -366,7 +365,7 @@ define([
                 id: 'legend',
                 type: 'titlePane',
                 path: 'esri/dijit/Legend',
-                title: 'Legend',
+                title: i18n.viewer.widgets.legend,
                 open: false,
                 position: 0,
                 options: {
@@ -379,7 +378,7 @@ define([
                 id: 'layerControl',
                 type: 'titlePane',
                 path: 'gis/dijit/LayerControl',
-                title: 'Layers',
+                title: i18n.viewer.widgets.layerControl,
                 open: false,
                 position: 0,
                 options: {
@@ -395,7 +394,7 @@ define([
                 id: 'bookmarks',
                 type: 'titlePane',
                 path: 'gis/dijit/Bookmarks',
-                title: 'Bookmarks',
+                title: i18n.viewer.widgets.bookmarks,
                 open: false,
                 position: 2,
                 options: 'config/bookmarks'
@@ -406,7 +405,7 @@ define([
                 type: 'titlePane',
                 canFloat: true,
                 path: 'gis/dijit/Find',
-                title: 'Find',
+                title: i18n.viewer.widgets.find,
                 open: false,
                 position: 3,
                 options: 'config/find'
@@ -417,7 +416,7 @@ define([
                 type: 'titlePane',
                 canFloat: true,
                 path: 'gis/dijit/Draw',
-                title: 'Draw',
+                title: i18n.viewer.widgets.draw,
                 open: false,
                 position: 4,
                 options: {
@@ -431,7 +430,7 @@ define([
                 type: 'titlePane',
                 canFloat: true,
                 path: 'gis/dijit/Measurement',
-                title: 'Measurement',
+                title: i18n.viewer.widgets.measure,
                 open: false,
                 position: 5,
                 options: {
@@ -447,7 +446,7 @@ define([
                 type: 'titlePane',
                 canFloat: true,
                 path: 'gis/dijit/Print',
-                title: 'Print',
+                title: i18n.viewer.widgets.print,
                 open: false,
                 position: 6,
                 options: {
@@ -465,14 +464,14 @@ define([
                 id: 'directions',
                 type: 'titlePane',
                 path: 'gis/dijit/Directions',
-                title: 'Directions',
+                title: i18n.viewer.widgets.directions,
                 open: false,
                 position: 7,
                 options: {
                     map: true,
                     mapRightClickMenu: true,
                     options: {
-                        routeTaskUrl: 'http://sampleserver3.arcgisonline.com/ArcGIS/rest/services/Network/USA/NAServer/Route',
+                        routeTaskUrl: 'https://sampleserver3.arcgisonline.com/ArcGIS/rest/services/Network/USA/NAServer/Route',
                         routeParams: {
                             directionsLanguage: 'en-US',
                             directionsLengthUnits: units.MILES
@@ -486,7 +485,7 @@ define([
                 id: 'editor',
                 type: 'titlePane',
                 path: 'gis/dijit/Editor',
-                title: 'Editor',
+                title: i18n.viewer.widgets.editor,
                 open: false,
                 position: 8,
                 options: {
@@ -515,7 +514,7 @@ define([
                 canFloat: true,
                 position: 9,
                 path: 'gis/dijit/StreetView',
-                title: 'Google Street View',
+                title: i18n.viewer.widgets.streetview,
                 paneOptions: {
                     resizable: true,
                     resizeOptions: {
@@ -531,12 +530,26 @@ define([
                     mapRightClickMenu: true
                 }
             },
+            locale: {
+                include: true,
+                id: 'locale',
+                //type: 'titlePane',
+                //position: 0,
+                //open: true,
+                type: 'domNode',
+                srcNodeRef: 'geocodeDijit',
+                path: 'gis/dijit/Locale',
+                title: i18n.viewer.widgets.locale,
+                options: {
+                    style: 'margin-left: 30px;'
+                }
+            },
             help: {
                 include: true,
                 id: 'help',
                 type: 'floating',
                 path: 'gis/dijit/Help',
-                title: 'Help',
+                title: i18n.viewer.widgets.help,
                 options: {}
             }
 
